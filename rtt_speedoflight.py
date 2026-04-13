@@ -32,18 +32,6 @@ TARGETS = {
     "Berlin":       {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
     "London":       {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
     "Canberra":     {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
- 
-"""   
-Sendai, Japan	http://www.tohoku.ac.jp	Tohoku University 38.25° N, 140.87° E
-Seoul, Korea	http://www.snu.ac.kr	Seoul National University 37.4648° N, 126.9572° E
-New Delhi, India	http://www.iitd.ac.in	IIT Delhi 28.5457° N, 77.1928° E
-Santiago, Chile	http://www.uchile.cl	Universidad de Chile 33.4445° S, 70.6509° W
-Johannesburg, South Africa	http://www.wits.ac.za	University of the Witwatersrand 26.1929° S, 28.0304° E
-
-Berlin, Germany	http://www.fu-berlin.de	Freie Universität Berlin 52.4543° N, 13.2935° E
-London, UK	http://www.imperial.ac.uk	Imperial College London 51.4988° N, 0.1749° W
-Canberra, Australia	http://www.anu.edu.au	Australian National University 35.2813° S, 149.1183° E
-"""
 
 }
 
