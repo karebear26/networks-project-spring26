@@ -110,9 +110,21 @@ def great_circle_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float
     TODO: implement from scratch. Use math.radians() to convert degrees.
     Do NOT use geopy or any distance library.
     """
+    
+    dlat1 = math.radians(lat1)
+    dlat2 = math.radians(lat2)
+    delta_dlat = dlat2 - dlat1
+
+    dlon1 = math.radians(lon1)
+    dlon2 = math.radians(lon2)
+    delta_dlon = dlon2 - dlon1;
+    
+    a = math.pow(math.sin(delta_dlat / 2), 2) + math.cos(dlat1) * math.cos(dlat2) * math.pow(math.sin(delta_dlon / 2), 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     R = 6371
+    
     # TODO
-    return 0.0  # placeholder
+    return R * c
 
 
 def get_my_location() -> tuple[float, float, str]:
