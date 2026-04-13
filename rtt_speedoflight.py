@@ -70,6 +70,13 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
 
     for _ in range(probes):
         # TODO: send probe
+        try: 
+            start = time.perf_counter()
+            urllib.request.urlopen(url, timeout=3)
+            elapsed_ms = (time.perf_counter() - start) * 1000
+        except Exception:
+            lost + 1
+        
         time.sleep(0.2)
 
     if not samples:
