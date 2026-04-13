@@ -89,7 +89,7 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
         "min_ms": float(np.min(samples)),
         "mean_ms": float(np.mean(samples)),
         "median_ms": float(np.median(samples)),
-        "loss_pct": (lost/probes) * 100,
+        "loss_pct": (lost / probes) * 100,
         "samples": samples,
     } 
 
