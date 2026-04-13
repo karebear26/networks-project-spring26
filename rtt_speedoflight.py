@@ -238,7 +238,9 @@ def make_plots(results: dict):
     # TODO
     x = np.arrange(len(cities))
     
-    ax.bar((x - 0.5) / 2, median_RTT, 0.5, label='Measured Median RTT')
+    ax.bar(x - 0.5 / 2, median_RTT, 0.5, label = 'Measured Median RTT')
+    ax.bar(x + 0.5 / 2, median_RTT, 0.5, label = 'Theoretical Min RTT')
+    
     ax.set_title('RTT Comparison')
     ax.set_ylabel('Latency (ms)')
     
