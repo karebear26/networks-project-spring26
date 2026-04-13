@@ -153,7 +153,7 @@ def compute_inefficiency(results: dict, src_lat: float, src_lon: float) -> dict:
         4. Annotate results[city] in place.
     """
     for city, data in results.items():
-        
+         # TODO
         dest_lat, dest_lon = data["coords"]
         
         gc_dist = great_circle_km(src_lat, src_lon, dest_lat, dest_lon)
@@ -167,17 +167,12 @@ def compute_inefficiency(results: dict, src_lat: float, src_lon: float) -> dict:
             ineff_ratio = median / theo_min_ms
             data["inefficiency_ratio"] = ineff_ratio
             exp = ineff_ratio > 3.0
-            data["high_eff
-        
-        
-        
-        
-        
-        
-        # TODO
-        pass
+            data["high_inefficiency"] = exp
+        else
+            data["inefficiency_ratio"] = None
+            data["high_inefficiency"] = False
+            
     return results
-
 
 # ─────────────────────────────────────────────
 # TASK 3 — PLOTS
