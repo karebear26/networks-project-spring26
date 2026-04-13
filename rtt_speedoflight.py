@@ -91,7 +91,7 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
         "median_ms": float(np.median(samples)),
         "loss_pct": (lost/probes) * 100,
         "samples": samples,
-    }  # placeholder
+    } 
 
 
 # ─────────────────────────────────────────────
@@ -153,6 +153,27 @@ def compute_inefficiency(results: dict, src_lat: float, src_lon: float) -> dict:
         4. Annotate results[city] in place.
     """
     for city, data in results.items():
+        
+        dest_lat, dest_lon = data["coords"]
+        
+        gc_dist = great_circle_km(src_lat, src_lon, dest_lat, dest_lon)
+        data["distance_km"] = gc_dist
+
+        theo_min_ms = 2 * (gc_dist / FIBER_SPEED_KM_S) * 1000
+        data["theoretical_min_ms"] = theo_min_ms
+
+        median = data.get("median_ms")
+        if median is not None
+            ineff_ratio = median / theo_min_ms
+            data["inefficiency_ratio"] = ineff_ratio
+            exp = ineff_ratio > 3.0
+            data["high_eff
+        
+        
+        
+        
+        
+        
         # TODO
         pass
     return results
