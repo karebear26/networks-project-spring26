@@ -74,8 +74,9 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
             start = time.perf_counter()
             urllib.request.urlopen(url, timeout=3)
             elapsed_ms = (time.perf_counter() - start) * 1000
+            samples.append(elapsed_ms)
         except Exception:
-            lost + 1
+            lost += 1
         
         time.sleep(0.2)
 
@@ -84,7 +85,13 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
                 "loss_pct": 100.0, "samples": []}
 
     # TODO: compute and return stats
-    return {}  # placeholder
+    return {
+        "min_ms": float(np.min(samples)),
+        "mean_ms": float(np.mean(samples)),
+        "median_ms": float(np.median(samples)),
+        "loss_pct": (lost/probes) * 100,
+        "samples": samples,
+    }  # placeholder
 
 
 # ─────────────────────────────────────────────
