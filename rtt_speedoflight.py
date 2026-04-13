@@ -206,9 +206,16 @@ def make_plots(results: dict):
     valid  = {c: d for c, d in results.items() if d.get("median_ms") is not None}
     cities = sorted(valid, key=lambda c: valid[c]["distance_km"])
 
+    
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
     # TODO
+
+    ax.bar(0.5, valid[c]["median_ms"] for c in cities, 0.5, label='Measured Median RTT')
+    ax.set_title('RTT Comparison')
+    ax.set_ylabel('Latency (ms)')
+    
+    
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig1_rtt_comparison.png", dpi=150, bbox_inches="tight")
     plt.close()
