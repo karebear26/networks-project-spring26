@@ -24,6 +24,27 @@ TARGETS = {
     "Mumbai":       {"url": "http://www.google.co.in",   "coords": (19.0760,   72.8777), "continent": "Asia"},
     "London":       {"url": "http://www.google.co.uk",   "coords": (51.5074,   -0.1278), "continent": "Europe"},
     "Singapore":    {"url": "http://www.google.com.sg",  "coords": (1.3521,   103.8198), "continent": "Asia"},
+    "Sendai"        {"url": "http://www.tohoku.ac.jp",   "coords": (38.25,    140.87),   "continent": "Asia"},
+    "Seoul"         {"url": "http://www.snu.ac.kr",      "coords": (37.4648, 126.9572),  "continent": "Asia"},
+    "New Delhi"     {"url": "http://www.iitd.ac.in",     "coords": (28.5457, 77.1928),   "continent": "Asia"},
+    "Santiago"      {"url": "http://www.uchile.cl",      "coords": (-33.4445, -70.6509),   "continent": "S. America"},
+    "Johannesburg"  {"url": "http://www.wits.ac.za",     "coords": (-26.1929, 28.0304),   "continent": "Africa"},
+    "Berlin"        {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
+    "London"        {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
+    "Canberra"      {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
+ 
+"""   
+Sendai, Japan	http://www.tohoku.ac.jp	Tohoku University 38.25° N, 140.87° E
+Seoul, Korea	http://www.snu.ac.kr	Seoul National University 37.4648° N, 126.9572° E
+New Delhi, India	http://www.iitd.ac.in	IIT Delhi 28.5457° N, 77.1928° E
+Santiago, Chile	http://www.uchile.cl	Universidad de Chile 33.4445° S, 70.6509° W
+Johannesburg, South Africa	http://www.wits.ac.za	University of the Witwatersrand 26.1929° S, 28.0304° E
+
+Berlin, Germany	http://www.fu-berlin.de	Freie Universität Berlin 52.4543° N, 13.2935° E
+London, UK	http://www.imperial.ac.uk	Imperial College London 51.4988° N, 0.1749° W
+Canberra, Australia	http://www.anu.edu.au	Australian National University 35.2813° S, 149.1183° E
+"""
+
 }
 
 PROBES           = 15
