@@ -24,14 +24,14 @@ TARGETS = {
     "Mumbai":       {"url": "http://www.google.co.in",   "coords": (19.0760,   72.8777), "continent": "Asia"},
     "London":       {"url": "http://www.google.co.uk",   "coords": (51.5074,   -0.1278), "continent": "Europe"},
     "Singapore":    {"url": "http://www.google.com.sg",  "coords": (1.3521,   103.8198), "continent": "Asia"},
-    "Sendai"        {"url": "http://www.tohoku.ac.jp",   "coords": (38.25,    140.87),   "continent": "Asia"},
-    "Seoul"         {"url": "http://www.snu.ac.kr",      "coords": (37.4648, 126.9572),  "continent": "Asia"},
-    "New Delhi"     {"url": "http://www.iitd.ac.in",     "coords": (28.5457, 77.1928),   "continent": "Asia"},
-    "Santiago"      {"url": "http://www.uchile.cl",      "coords": (-33.4445, -70.6509),   "continent": "S. America"},
-    "Johannesburg"  {"url": "http://www.wits.ac.za",     "coords": (-26.1929, 28.0304),   "continent": "Africa"},
-    "Berlin"        {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
-    "London"        {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
-    "Canberra"      {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
+    "Sendai":       {"url": "http://www.tohoku.ac.jp",   "coords": (38.25,    140.87),   "continent": "Asia"},
+    "Seoul":        {"url": "http://www.snu.ac.kr",      "coords": (37.4648, 126.9572),  "continent": "Asia"},
+    "New Delhi":    {"url": "http://www.iitd.ac.in",     "coords": (28.5457, 77.1928),   "continent": "Asia"},
+    "Santiago":     {"url": "http://www.uchile.cl",      "coords": (-33.4445, -70.6509),   "continent": "S. America"},
+    "Johannesburg": {"url": "http://www.wits.ac.za",     "coords": (-26.1929, 28.0304),   "continent": "Africa"},
+    "Berlin":       {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
+    "London":       {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
+    "Canberra":     {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
  
 """   
 Sendai, Japan	http://www.tohoku.ac.jp	Tohoku University 38.25° N, 140.87° E
