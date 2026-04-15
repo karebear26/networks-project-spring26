@@ -32,7 +32,6 @@ TARGETS = {
     "Berlin":       {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
     "London":       {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
     "Canberra":     {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
-
 }
 
 PROBES           = 15
@@ -172,12 +171,12 @@ def compute_inefficiency(results: dict, src_lat: float, src_lon: float) -> dict:
         data["theoretical_min_ms"] = theo_min_ms
 
         median = data.get("median_ms")
-        if median is not None
+        if median is not None:
             ineff_ratio = median / theo_min_ms
             data["inefficiency_ratio"] = ineff_ratio
             exp = ineff_ratio > 3.0
             data["high_inefficiency"] = exp
-        else
+        else:
             data["inefficiency_ratio"] = None
             data["high_inefficiency"] = False
             
@@ -215,9 +214,9 @@ def make_plots(results: dict):
     valid  = {c: d for c, d in results.items() if d.get("median_ms") is not None}
     cities = sorted(valid, key=lambda c: valid[c]["distance_km"])
 
-    dist = valid[c]["distance_km"] for c in cities
-    median_RTT = valid[c]["median_ms"] for c in cities
-    theoretical_min_RTT = valid[c]["theoretical_min_ms"] for c in cities
+    dist = [valid[c]["distance_km"] for c in cities]
+    median_RTT = [valid[c]["median_ms"] for c in cities]
+    theoretical_min_RTT = [valid[c]["theoretical_min_ms"] for c in cities]
     
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
@@ -226,7 +225,7 @@ def make_plots(results: dict):
     width = 0.5
     
     ax.bar(x - width / 2, median_RTT, width, label = 'Measured Median RTT', color = 'skyblue')
-    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="lightpink')
+    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="lightpink")
 
     ax.set_title('Measured Median RTT vs. Theoretical Min RTT per city')
     ax.set_ylabel('Latency (ms)')
@@ -253,7 +252,7 @@ def make_plots(results: dict):
     # TODO
     for city in cities:
         d = valid[city]
-        color = CONTINENT_COLORS.get(d["continent"], gray)
+        color = CONTINENT_COLORS.get(d["continent"], "gray")
         ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
         ax.annotate(city, (d["distance+km"], d["median_ms"]), textcoords = "offset points", xytext = ())
     
@@ -263,14 +262,14 @@ def make_plots(results: dict):
     xline = [p[0] for p in sorted_pairs]
     yline = [p[0] for p in sorted_pairs]
 
-    ax.plot(xline, ylone, linestyle = "--", color = "black", label = "Theoretical Min")
+    ax.plot(xline, yline, linestyle = "--", color = "black", label = "Theoretical Min")
 
     ax.set_xlabel('Distance_km')
     ax.set_ylabel('Measured Median RTT')
     ax.set_title('Distance vs. Measureed Median RTT')
 
     legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items]
-    legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min")
+    legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min"))
     ax.legend(handles = legend_handles, loc = "upper left")
                                         
     
