@@ -256,9 +256,9 @@ def make_plots(results: dict):
         color = CONTINENT_COLORS.get(d["continent"], gray)
         ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
         ax.annotate(city, (d["distance+km"], d["median_ms"]), textcoords = "offset points", xytext = ())
-
+    
     sorted_pairs = sorted(
-
+        [(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0]
     )
     xline = [p[0] for p in sorted_pairs]
     yline = [p[0] for p in sorted_pairs]
@@ -269,7 +269,10 @@ def make_plots(results: dict):
     ax.set_ylabel('Measured Median RTT')
     ax.set_title('Distance vs. Measureed Median RTT')
 
-    l
+    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items]
+    legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min")
+    ax.legend(handles = legend_handles, loc = "upper left")
+                                        
     
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig2_distance_scatter.png", dpi=150, bbox_inches="tight")
