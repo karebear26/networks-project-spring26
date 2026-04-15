@@ -230,7 +230,7 @@ def make_plots(results: dict):
 
     ax.set_title('Measured Median RTT vs. Theoretical Min RTT per city')
     ax.set_ylabel('Latency (ms)')
-    ax.set_xlabel('Cities')
+    ax.set_xlabel('City')
     ax.set_xticks(x)
     ax.set_xticklabels(cities)
     ax.legend()
