@@ -251,7 +251,25 @@ def make_plots(results: dict):
     # ── Figure 2 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
-    
+    for city in cities:
+        d = valid[city]
+        color = CONTINENT_COLORS.get(d["continent"], gray)
+        ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
+        ax.annotate(city, (d["distance+km"], d["median_ms"]), textcoords = "offset points", xytext = ())
+
+    sorted_pairs = sorted(
+
+    )
+    xline = [p[0] for p in sorted_pairs]
+    yline = [p[0] for p in sorted_pairs]
+
+    ax.plot(xline, ylone, linestyle = "--", color = "black", label = "Theoretical Min")
+
+    ax.set_xlabel('Distance_km')
+    ax.set_ylabel('Measured Median RTT')
+    ax.set_title('Distance vs. Measureed Median RTT')
+
+    l
     
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig2_distance_scatter.png", dpi=150, bbox_inches="tight")
