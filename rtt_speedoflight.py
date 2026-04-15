@@ -219,27 +219,40 @@ def make_plots(results: dict):
     median_RTT = valid[c]["median_ms"] for c in cities
     theoretical_min_RTT = valid[c]["theoretical_min_ms"] for c in cities
     
-    
-    
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
     # TODO
     x = np.arrange(len(cities))
+    width = 0.5
     
-    ax.bar(x - 0.5 / 2, median_RTT, 0.5, label = 'Measured Median RTT')
-    ax.bar(x + 0.5 / 2, median_RTT, 0.5, label = 'Theoretical Min RTT')
-    
-    ax.set_title('RTT Comparison')
+    ax.bar(x - width / 2, median_RTT, width, label = 'Measured Median RTT', color = 'skyblue')
+    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="lightpink')
+
+    ax.set_title('Measured Median RTT vs. Theoretical Min RTT per city')
     ax.set_ylabel('Latency (ms)')
-    
+    ax.set_xlabel('Cities')
+    ax.set_xticks(x)
+    ax.set_xticklabels(cities)
+    ax.legend()
     
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig1_rtt_comparison.png", dpi=150, bbox_inches="tight")
     plt.close()
-
+           
+    """
+        Figure 2 — fig2_distance_scatter.png
+        Scatter: x = distance_km, y = measured median RTT.
+        Draw a dashed line for theoretical minimum.
+        Label each point with city name.
+        Color by continent using CONTINENT_COLORS.
+        Add continent legend and title.
+    """
+    
     # ── Figure 2 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
+    
+    
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig2_distance_scatter.png", dpi=150, bbox_inches="tight")
     plt.close()
