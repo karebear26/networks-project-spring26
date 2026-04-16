@@ -216,24 +216,25 @@ def make_plots(results: dict):
     os.makedirs(FIGURES_DIR, exist_ok=True)
     valid  = {c: d for c, d in results.items() if d.get("median_ms") is not None}
     cities = sorted(valid, key=lambda c: valid[c]["distance_km"])
+
+    dist = [valid[c]["distance_km"] for c in cities]
+    median_RTT = [valid[c]["median_ms"] for c in cities]
+    theoretical_min_RTT = [valid[c]["theoretical_min_ms"] for c in cities]
     
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
     # TODO
-    x = np.arange(len(cities))
-    width = 0.38
-
-    median_RTT = [valid[c]["median_ms"] for c in cities]
-    theoretical_min_RTT = [valid[c]["theoretical_min_ms"] for c in cities]
+    x = np.arrange(len(cities))
+    width = 0.5
     
-    ax.bar(x - width / 2, median_RTT, width, label = "Measured Median RTT", color = "skyblue")
-    ax.bar(x + width / 2, theoretical_min_RTT, width, label = "Theoretical Min RTT", color = "lightpink")
+    ax.bar(x - width / 2, median_RTT, width, label = 'Measured Median RTT', color = 'skyblue')
+    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="lightpink")
 
-    ax.set_title("Measured Median RTT vs. Theoretical Min RTT per city")
-    ax.set_ylabel("RTT (ms)")
-    ax.set_xlabel("City")
+    ax.set_title('Measured Median RTT vs. Theoretical Min RTT per city')
+    ax.set_ylabel('Latency (ms)')
+    ax.set_xlabel('City')
     ax.set_xticks(x)
-    ax.set_xticklabels(cities, rotation = 45, ha = "right")
+    ax.set_xticklabels(cities)
     ax.legend()
     
     plt.tight_layout()
@@ -252,27 +253,25 @@ def make_plots(results: dict):
     # ── Figure 2 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
-    dist = [valid[c]["distance_km"] for c in cities]
-
     for city in cities:
         d = valid[city]
         color = CONTINENT_COLORS.get(d["continent"], "gray")
         ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
-        ax.annotate(city, (d["distance_km"], d["median_ms"]), textcoords = "offset points", xytext = (5,5))
+        ax.annotate(city, (d["distance+km"], d["median_ms"]), textcoords = "offset points", xytext = ())
     
     sorted_pairs = sorted(
         [(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0]
     )
     xline = [p[0] for p in sorted_pairs]
-    yline = [p[1] for p in sorted_pairs]
+    yline = [p[0] for p in sorted_pairs]
 
     ax.plot(xline, yline, linestyle = "--", color = "black", label = "Theoretical Min")
 
-    ax.set_xlabel("Distance (km)")
-    ax.set_ylabel("Measured Median RTT (ms)")
-    ax.set_title("Distance vs. Measureed Median RTT")
+    ax.set_xlabel('Distance_km')
+    ax.set_ylabel('Measured Median RTT')
+    ax.set_title('Distance vs. Measureed Median RTT')
 
-    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items()]
+    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items]
     legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min"))
     ax.legend(handles = legend_handles, loc = "upper left")
                                         
