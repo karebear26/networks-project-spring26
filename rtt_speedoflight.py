@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import urllib.request
 
+from matplotlib.lines import Line2D
+from matplotlib.artist import Artist
+
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
@@ -32,19 +35,6 @@ TARGETS = {
     "Berlin":       {"url": "http://www.fu-berlin.de",   "coords": (52.4543, 13.2935),   "continent": "Europe"},
     "London":       {"url": "http://www.imperial.ac.uk", "coords": (51.4988, -0.1749),    "continent": "Europe"},
     "Canberra":     {"url": "http://www.anu.edu.au",     "coords": (-35.2813, 149.1183),  "continent": "Australia"},
- 
-"""   
-Sendai, Japan	http://www.tohoku.ac.jp	Tohoku University 38.25° N, 140.87° E
-Seoul, Korea	http://www.snu.ac.kr	Seoul National University 37.4648° N, 126.9572° E
-New Delhi, India	http://www.iitd.ac.in	IIT Delhi 28.5457° N, 77.1928° E
-Santiago, Chile	http://www.uchile.cl	Universidad de Chile 33.4445° S, 70.6509° W
-Johannesburg, South Africa	http://www.wits.ac.za	University of the Witwatersrand 26.1929° S, 28.0304° E
-
-Berlin, Germany	http://www.fu-berlin.de	Freie Universität Berlin 52.4543° N, 13.2935° E
-London, UK	http://www.imperial.ac.uk	Imperial College London 51.4988° N, 0.1749° W
-Canberra, Australia	http://www.anu.edu.au	Australian National University 35.2813° S, 149.1183° E
-"""
-
 }
 
 PROBES           = 15
@@ -138,7 +128,7 @@ def great_circle_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float
 
     dlon1 = math.radians(lon1)
     dlon2 = math.radians(lon2)
-    delta_dlon = dlon2 - dlon1;
+    delta_dlon = dlon2 - dlon1
     
     a = math.pow(math.sin(delta_dlat / 2), 2) + math.cos(dlat1) * math.cos(dlat2) * math.pow(math.sin(delta_dlon / 2), 2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
@@ -184,12 +174,12 @@ def compute_inefficiency(results: dict, src_lat: float, src_lon: float) -> dict:
         data["theoretical_min_ms"] = theo_min_ms
 
         median = data.get("median_ms")
-        if median is not None
+        if median is not None:
             ineff_ratio = median / theo_min_ms
             data["inefficiency_ratio"] = ineff_ratio
             exp = ineff_ratio > 3.0
             data["high_inefficiency"] = exp
-        else
+        else:
             data["inefficiency_ratio"] = None
             data["high_inefficiency"] = False
             
@@ -226,32 +216,67 @@ def make_plots(results: dict):
     os.makedirs(FIGURES_DIR, exist_ok=True)
     valid  = {c: d for c, d in results.items() if d.get("median_ms") is not None}
     cities = sorted(valid, key=lambda c: valid[c]["distance_km"])
-
-    dist = valid[c]["distance_km"] for c in cities
-    median_RTT = valid[c]["median_ms"] for c in cities
-    theoretical_min_RTT = valid[c]["theoretical_min_ms"] for c in cities
-    
-    
     
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
     # TODO
-    x = np.arrange(len(cities))
+    x = np.arange(len(cities))
+    width = 0.38
+
+    median_RTT = [valid[c]["median_ms"] for c in cities]
+    theoretical_min_RTT = [valid[c]["theoretical_min_ms"] for c in cities]
     
-    ax.bar(x - 0.5 / 2, median_RTT, 0.5, label = 'Measured Median RTT')
-    ax.bar(x + 0.5 / 2, median_RTT, 0.5, label = 'Theoretical Min RTT')
-    
-    ax.set_title('RTT Comparison')
-    ax.set_ylabel('Latency (ms)')
-    
+    ax.bar(x - width / 2, median_RTT, width, label = "Measured Median RTT", color = "skyblue")
+    ax.bar(x + width / 2, theoretical_min_RTT, width, label = "Theoretical Min RTT", color = "lightpink")
+
+    ax.set_title("Measured Median RTT vs. Theoretical Min RTT per city")
+    ax.set_ylabel("RTT (ms)")
+    ax.set_xlabel("City")
+    ax.set_xticks(x)
+    ax.set_xticklabels(cities, rotation = 45, ha = "right")
+    ax.legend()
     
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig1_rtt_comparison.png", dpi=150, bbox_inches="tight")
     plt.close()
-
+           
+    """
+        Figure 2 — fig2_distance_scatter.png
+        Scatter: x = distance_km, y = measured median RTT.
+        Draw a dashed line for theoretical minimum.
+        Label each point with city name.
+        Color by continent using CONTINENT_COLORS.
+        Add continent legend and title.
+    """
+    
     # ── Figure 2 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
+    dist = [valid[c]["distance_km"] for c in cities]
+
+    for city in cities:
+        d = valid[city]
+        color = CONTINENT_COLORS.get(d["continent"], "gray")
+        ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
+        ax.annotate(city, (d["distance_km"], d["median_ms"]), textcoords = "offset points", xytext = (5,5))
+    
+    sorted_pairs = sorted(
+        [(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0]
+    )
+    xline = [p[0] for p in sorted_pairs]
+    yline = [p[1] for p in sorted_pairs]
+
+    ax.plot(xline, yline, linestyle = "--", color = "black", label = "Theoretical Min")
+
+    ax.set_xlabel("Distance (km)")
+    ax.set_ylabel("Measured Median RTT (ms)")
+    ax.set_title("Distance vs. Measureed Median RTT")
+
+    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items()]
+    legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min"))
+    ax.legend(handles = legend_handles, loc = "upper left")
+                                        
+    
     plt.tight_layout()
     plt.savefig(f"{FIGURES_DIR}/fig2_distance_scatter.png", dpi=150, bbox_inches="tight")
     plt.close()
