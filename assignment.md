@@ -56,8 +56,11 @@ Save both as PNGs in a `figures/` folder.
 ### Analysis (in `analysis.md`) — 20 pts bonus
 Answer three questions:
 1. Which city has the highest inefficiency ratio? Look it up on [submarinecablemap.com](https://submarinecablemap.com) — what cables serve it and how does that explain your result?
+Sendai has the highest inefficiency ratio of about 14.98, which is served by the Japan Information Highway (JIH) submarine cables and supplied by NEC. These cables are made of high-density polythylene and poolyurethane, which are known for durability but slower data transfer speeds, resulting in a high inefficiency ratio.
 2. Which city is closest to the theoretical minimum? What does that tell you about routing infrastructure there?
+The theoretical mimimum rtt and median rtt for Tokyo are close in value with a ratio of 1.10, indicating a wide and efficient routing infrasture that is following the Great Circle route almost perfectly.
 3. Your packet to Lagos almost certainly routes through Europe first. Why does Africa route through Europe, and what would need to change to fix it?
+Africa routes through Europe because of the lack of local physical connections between African regions that is a direct result of heavy European colonial influence. To fix this issue, more IXPs need to be established within African regions, allowing cities to talk to each other instead of having to route all the way to European cities back down to African cities, whether the established routes are land-based or submarine-based.
 
 ---
 
