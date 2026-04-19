@@ -88,7 +88,6 @@ def measure_rtt(url: str, probes: int = PROBES) -> dict:
             samples.append(elapsed_ms)
         except Exception:
             lost += 1
-        
         time.sleep(0.2)
 
     if not samples:
@@ -121,7 +120,8 @@ def great_circle_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float
     TODO: implement from scratch. Use math.radians() to convert degrees.
     Do NOT use geopy or any distance library.
     """
-    
+
+    # TODO
     dlat1 = math.radians(lat1)
     dlat2 = math.radians(lat2)
     delta_dlat = dlat2 - dlat1
@@ -134,7 +134,6 @@ def great_circle_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     R = 6371
     
-    # TODO
     return R * c
 
 
@@ -217,18 +216,17 @@ def make_plots(results: dict):
     valid  = {c: d for c, d in results.items() if d.get("median_ms") is not None}
     cities = sorted(valid, key=lambda c: valid[c]["distance_km"])
 
-    dist = [valid[c]["distance_km"] for c in cities]
     median_RTT = [valid[c]["median_ms"] for c in cities]
     theoretical_min_RTT = [valid[c]["theoretical_min_ms"] for c in cities]
     
     # ── Figure 1 ──────────────────────────────
     fig, ax = plt.subplots(figsize=(11, 6))
     # TODO
-    x = np.arrange(len(cities))
-    width = 0.5
+    x = np.arange(len(cities))
+    width = 0.38
     
     ax.bar(x - width / 2, median_RTT, width, label = 'Measured Median RTT', color = 'skyblue')
-    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="lightpink")
+    ax.bar(x + width / 2, theoretical_min_RTT, width, label = 'Theoretical Min RTT', color ="red")
 
     ax.set_title('Measured Median RTT vs. Theoretical Min RTT per city')
     ax.set_ylabel('Latency (ms)')
@@ -254,24 +252,20 @@ def make_plots(results: dict):
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
     for city in cities:
-        d = valid[city]
-        color = CONTINENT_COLORS.get(d["continent"], "gray")
-        ax.scatter(d["distance_km"], d["median_ms"], color = color, s = 80)
-        ax.annotate(city, (d["distance+km"], d["median_ms"]), textcoords = "offset points", xytext = ())
+        ax.scatter(valid[city]["distance_km"], valid[city]["median_ms"], color = CONTINENT_COLORS.get(valid[city]["continent"], "gray"), s = 100)
+        ax.annotate(city, (valid[city]["distance_km"], valid[city]["median_ms"]), textcoords = "offset points", xytext = (5,5))
     
-    sorted_pairs = sorted(
-        [(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0]
-    )
-    xline = [p[0] for p in sorted_pairs]
-    yline = [p[0] for p in sorted_pairs]
+    sorted_pairs = sorted([(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0])
+    x = [p[0] for p in sorted_pairs]
+    y = [p[0] for p in sorted_pairs]
 
-    ax.plot(xline, yline, linestyle = "--", color = "black", label = "Theoretical Min")
+    ax.plot(x, y, linestyle = "--", color = "black", label = "Theoretical Min")
 
-    ax.set_xlabel('Distance_km')
-    ax.set_ylabel('Measured Median RTT')
-    ax.set_title('Distance vs. Measureed Median RTT')
+    ax.set_xlabel('Distance (km)')
+    ax.set_ylabel('Measured Median RTT (ms)')
+    ax.set_title('Distance vs. Measured Median RTT')
 
-    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items]
+    legend_handles: list[Artist] = [mpatches.Patch(color = color, label = continent) for continent, color in CONTINENT_COLORS.items()]
     legend_handles.append(Line2D([0], [0], color = "black", linestyle = "--", label = "Theoretical Min"))
     ax.legend(handles = legend_handles, loc = "upper left")
                                         
