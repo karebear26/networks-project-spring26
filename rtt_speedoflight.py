@@ -252,12 +252,13 @@ def make_plots(results: dict):
     fig, ax = plt.subplots(figsize=(10, 7))
     # TODO
     for city in cities:
-        ax.scatter(valid[city]["distance_km"], valid[city]["median_ms"], color = CONTINENT_COLORS.get(valid[city]["continent"], "gray"), s = 100)
+        
+        ax.scatter(valid[city]["distance_km"], valid[city]["median_ms"], color = CONTINENT_COLORS.get(valid[city]["continent"], "gray"), s = 90)
         ax.annotate(city, (valid[city]["distance_km"], valid[city]["median_ms"]), textcoords = "offset points", xytext = (5,5))
     
     sorted_pairs = sorted([(valid[c]["distance_km"], valid[c]["theoretical_min_ms"]) for c in cities], key = lambda t: t[0])
     x = [p[0] for p in sorted_pairs]
-    y = [p[0] for p in sorted_pairs]
+    y = [p[1] for p in sorted_pairs]
 
     ax.plot(x, y, linestyle = "--", color = "black", label = "Theoretical Min")
 
