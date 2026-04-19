@@ -232,7 +232,7 @@ def make_plots(results: dict):
     ax.set_ylabel('Latency (ms)')
     ax.set_xlabel('City')
     ax.set_xticks(x)
-    ax.set_xticklabels(cities)
+    ax.set_xticklabels(cities, rotation = 45)
     ax.legend()
     
     plt.tight_layout()
